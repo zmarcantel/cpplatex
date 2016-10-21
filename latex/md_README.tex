@@ -1,0 +1,53 @@
+\href{https://travis-ci.org/zmarcantel/cpplatex}{\tt !\mbox{[}Build Status\mbox{]}(https\-://travis-\/ci.\-org/zmarcantel/cpplatex.\-svg?branch=master)}
+
+Header-\/only {\ttfamily La\-Te\-X} document builder in C++14.
+
+An important feature is the ability to do (templated) math operations and get out not only the arithmetic result, but a fully {\ttfamily La\-Te\-X}-\/formatted representation.
+
+This allows the user to do complex/scientific math using external libraries while being able to programmatically generate reports, documentation, etc. from the calculations themselves with almost no effort.
+
+\section*{quick example}
+
+For more in-\/depth examples, see the tests.
+
+```cpp \#include \char`\"{}cpplatex.\-hpp\char`\"{}
+
+...
+
+\#define N\-U\-M(x) latex\-::math\-::make\-\_\-num(x) \#define E\-X\-P(x, y) latex\-::math\-::make\-\_\-exp(x, y) \#define R\-O\-O\-T(x, y) latex\-::math\-::make\-\_\-root(x, y)
+
+static latex\-::math\-::\-Number$<$double$>$ P\-I(3.\-14);
+
+void find\-\_\-area\-\_\-and\-\_\-volume(double height, double radius) \{ auto area = P\-I $\ast$ E\-X\-P(radius, 2); auto volume = P\-I $\ast$ pow(radius, 2) $\ast$ height;
+
+std\-::cout $<$$<$ area $<$$<$ std\-::endl; // output the La\-Te\-X formatted string std\-::cout $<$$<$ area.\-solve() $<$$<$ std\-::endl; // output the area of this base
+
+std\-::cout $<$$<$ volume $<$$<$ std\-::endl; // output the La\-Te\-X formatted string std\-::cout $<$$<$ volume.\-solve() $<$$<$ std\-::endl; // output the volume of this cylinder \}
+
+void complex\-\_\-equation() \{ // (sqrt(\-P\-I $\ast$ 4) + 14.\-68 + log3(10))$^\wedge$4 // -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- // cube\-\_\-root(9) auto eqn = ((P\-I $\ast$ 4).sqrt() + 14.\-68 + N\-U\-M(10).log(3)).pow(4) / R\-O\-O\-T(9, 3);
+
+std\-::cout $<$$<$ eqn $<$$<$ std\-::endl; // output the La\-Te\-X formatted string std\-::cout $<$$<$ eqn.\-solve() $<$$<$ std\-::endl; // output the reduced value of this complex equation \}
+
+void make\-\_\-doc() \{ // you can use the builder pattern...
+
+latex\-::doc\-::\-Document$<$latex\-::doc\-::doctypes\-::\-Report$>$ doc(\char`\"{}\-Some Title\char`\"{}, \char`\"{}\-And A Subtitle\char`\"{}); doc.\-with\-\_\-toc() // use a table of contents .use(\char`\"{}some\-\_\-import\char`\"{}) // use the \char`\"{}some\-\_\-import\char`\"{} package .use(\char`\"{}another\-\_\-import\char`\"{}) // use another package .with\-\_\-leading\-\_\-content(\char`\"{}some content to insert\char`\"{}); // add some content before we get to the sections
+
+// ... the streaming pattern
+
+\hyperlink{classlatex_1_1doc_1_1Section}{latex\-::doc\-::\-Section} intro(\char`\"{}\-Introduction\char`\"{}); intro $<$$<$ \char`\"{}\-Blah blah, oh, and blah.\char`\"{};
+
+doc $<$$<$ intro;
+
+// ... or a mix of both! handy dandy.
+
+// print your document
+
+std\-::cout $<$$<$ doc;
+
+// or store it
+
+auto doc\-\_\-str = doc.\-to\-\_\-string();
+
+// or build it into a std\-::ostream
+
+std\-::stringstream ss; doc.\-build(ss); \} ``` 
