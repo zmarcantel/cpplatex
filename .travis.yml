@@ -12,6 +12,7 @@ addons:
       - gcc-5
       - libgtest-dev
       - doxygen
+      - graphviz
 
 compiler:
   - clang
@@ -29,4 +30,4 @@ script:
   - if [ "$CXX" = "clang++" ]; then scons --clang --travis; fi
   - if [ "$CXX" = "g++" ]; then scons --travis; fi
 
-after_success: ./ghp_upload.sh
+after_success: ./ci/ghp_upload.sh
