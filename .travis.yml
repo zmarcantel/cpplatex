@@ -1,0 +1,28 @@
+sudo: false
+language: cpp
+
+addons:
+  apt:
+    sources:
+      - llvm-toolchain-precise
+      - ubuntu-toolchain-r-test
+    packages:
+      - scons
+      - clang-3.8
+      - g++-5
+      - gcc-5
+      - libgtest-dev
+
+compiler:
+  - clang
+  - gcc
+
+before_script:
+  - cd /home/travis
+  - mkdir gtest
+  - cd gtest
+  - cmake /usr/src/gtest
+  - cmake --build .
+  - cd $TRAVIS_BUILD_DIR
+
+script: scons --travis
