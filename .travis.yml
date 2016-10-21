@@ -6,6 +6,7 @@ addons:
     sources:
       - llvm-toolchain-precise
       - ubuntu-toolchain-r-test
+      - george-edison55-precise-backports
     packages:
       - scons
       - g++-5
