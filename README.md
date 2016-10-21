@@ -3,6 +3,8 @@ cpplatex
 
 [![Build Status](https://travis-ci.org/zmarcantel/cpplatex.svg?branch=master)](https://travis-ci.org/zmarcantel/cpplatex)
 
+[Documentation](https://zmarcantel.github.io/cpplatex)
+
 Header-only `LaTeX` document builder in C++14.
 
 An important feature is the ability to do (templated) math operations and get out not only the arithmetic
