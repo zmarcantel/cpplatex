@@ -1,0 +1,130 @@
+\hypertarget{classlatex_1_1doc_1_1Document}{\section{latex\-:\-:doc\-:\-:\-Document$<$ \-Doc\-Type $>$ \-Class \-Template \-Reference}
+\label{classlatex_1_1doc_1_1Document}\index{latex\-::doc\-::\-Document$<$ Doc\-Type $>$@{latex\-::doc\-::\-Document$<$ Doc\-Type $>$}}
+}
+
+
+{\ttfamily \#include $<$latex.\-hpp$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classlatex_1_1doc_1_1Document_ad03fa7f0d3271370006d20515a3fd5e0}{{\bfseries \-Document} (const std\-::string \&title)}\label{classlatex_1_1doc_1_1Document_ad03fa7f0d3271370006d20515a3fd5e0}
+
+\item 
+\hypertarget{classlatex_1_1doc_1_1Document_a95756c45b9f7b684d81920832971e6c1}{{\bfseries \-Document} (const std\-::string \&title, const std\-::string \&subtitle)}\label{classlatex_1_1doc_1_1Document_a95756c45b9f7b684d81920832971e6c1}
+
+\item 
+\hyperlink{classlatex_1_1doc_1_1Document}{\-Document} \& \hyperlink{classlatex_1_1doc_1_1Document_a0f449ee90309de24177f4bbc51bcc404}{use} (const std\-::string \&import)
+\item 
+\hyperlink{classlatex_1_1doc_1_1Document}{\-Document} \& \hyperlink{classlatex_1_1doc_1_1Document_a02070e69275d800b16c25f99725b5363}{with\-\_\-leading\-\_\-content} (const std\-::string \&content)
+\item 
+\hyperlink{classlatex_1_1doc_1_1Document}{\-Document} \& \hyperlink{classlatex_1_1doc_1_1Document_a42eea3ed819c215c5addf8b10fae4302}{with\-\_\-toc} ()
+\item 
+void \hyperlink{classlatex_1_1doc_1_1Document_a4225432b9f4e3837c4251c9b97c413c6}{write\-\_\-leading} (const std\-::string \&content)
+\item 
+\hypertarget{classlatex_1_1doc_1_1Document_a5a00cc1883a91126f7c9779d1c0990db}{void {\bfseries insert} (const \hyperlink{classlatex_1_1doc_1_1Section}{\-Section} \&sect)}\label{classlatex_1_1doc_1_1Document_a5a00cc1883a91126f7c9779d1c0990db}
+
+\item 
+\hypertarget{classlatex_1_1doc_1_1Document_a86621b9927d388202c62be1a72fcdb42}{\hyperlink{classlatex_1_1doc_1_1Document}{\-Document} \& {\bfseries operator$<$$<$} (const char $\ast$val)}\label{classlatex_1_1doc_1_1Document_a86621b9927d388202c62be1a72fcdb42}
+
+\item 
+\hypertarget{classlatex_1_1doc_1_1Document_a3bfae6320f6798f236e9d1775ab4a987}{\hyperlink{classlatex_1_1doc_1_1Document}{\-Document} \& {\bfseries operator$<$$<$} (const std\-::string \&val)}\label{classlatex_1_1doc_1_1Document_a3bfae6320f6798f236e9d1775ab4a987}
+
+\item 
+\hypertarget{classlatex_1_1doc_1_1Document_a0d011c1af57eea8b68e5aae4ed546d99}{\hyperlink{classlatex_1_1doc_1_1Document}{\-Document} \& {\bfseries operator$<$$<$} (const \hyperlink{classlatex_1_1doc_1_1Section}{\-Section} \&val)}\label{classlatex_1_1doc_1_1Document_a0d011c1af57eea8b68e5aae4ed546d99}
+
+\item 
+std\-::string \hyperlink{classlatex_1_1doc_1_1Document_ad62f7f8b1f05f3d6edb2734ba0611913}{to\-\_\-string} () const 
+\item 
+void \hyperlink{classlatex_1_1doc_1_1Document_a8ae50f6e90452fce2dc036b8fd30a052}{build} (std\-::ostream \&ss) const 
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classlatex_1_1doc_1_1Document_ae669c421fa782997eae2aed024d7fc53}{std\-::string {\bfseries title}}\label{classlatex_1_1doc_1_1Document_ae669c421fa782997eae2aed024d7fc53}
+
+\item 
+\hypertarget{classlatex_1_1doc_1_1Document_a966c4725ea244d9ac8a40335202cb499}{std\-::string {\bfseries subtitle}}\label{classlatex_1_1doc_1_1Document_a966c4725ea244d9ac8a40335202cb499}
+
+\item 
+\hypertarget{classlatex_1_1doc_1_1Document_ab7d78e94c5883a7e7adcfa141039d128}{bool {\bfseries use\-\_\-toc}}\label{classlatex_1_1doc_1_1Document_ab7d78e94c5883a7e7adcfa141039d128}
+
+\item 
+\hypertarget{classlatex_1_1doc_1_1Document_aa6f47f638c00b57aaed3fca96a7eeab8}{std\-::vector$<$ std\-::string $>$ {\bfseries imports}}\label{classlatex_1_1doc_1_1Document_aa6f47f638c00b57aaed3fca96a7eeab8}
+
+\item 
+\hypertarget{classlatex_1_1doc_1_1Document_a69c709a155dcf20df20a353b0d2ec245}{std\-::vector$<$ std\-::string $>$ {\bfseries leading\-\_\-contents}}\label{classlatex_1_1doc_1_1Document_a69c709a155dcf20df20a353b0d2ec245}
+
+\item 
+\hypertarget{classlatex_1_1doc_1_1Document_a504d1c3f8c3d3492a13bfb0c249f699f}{std\-::vector$<$ \hyperlink{classlatex_1_1doc_1_1Section}{\-Section} $>$ {\bfseries sections}}\label{classlatex_1_1doc_1_1Document_a504d1c3f8c3d3492a13bfb0c249f699f}
+
+\end{DoxyCompactItemize}
+\subsection*{\-Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classlatex_1_1doc_1_1Document_a278308e5ad27667f48b2daf57dd1b254}{std\-::ostream \& {\bfseries operator$<$$<$} (std\-::ostream \&os, const \hyperlink{classlatex_1_1doc_1_1Document}{\-Document} \&doc)}\label{classlatex_1_1doc_1_1Document_a278308e5ad27667f48b2daf57dd1b254}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\subsubsection*{template$<$typename Doc\-Type = doctypes\-::\-Article$>$class latex\-::doc\-::\-Document$<$ Doc\-Type $>$}
+
+\-Defines a document which is the root for generating a valid \-La\-Te\-X document.
+
+\-Documents must be given a title, and optionally a subtitle.
+
+\-If the document type supports a table of contents, one is generated after the title page. \-Table of contents can be toggled via the `\-::use\-\_\-toc` variable or `\-::with\-\_\-toc()` function.
+
+\-The `\-::use()` function allows importing \-La\-Te\-X packages.
+
+\-Leading content is output first, followed by all sections (and their subsections). 
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{classlatex_1_1doc_1_1Document_a8ae50f6e90452fce2dc036b8fd30a052}{\index{latex\-::doc\-::\-Document@{latex\-::doc\-::\-Document}!build@{build}}
+\index{build@{build}!latex::doc::Document@{latex\-::doc\-::\-Document}}
+\subsubsection[{build}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Doc\-Type  = doctypes\-::\-Article$>$ void {\bf latex\-::doc\-::\-Document}$<$ \-Doc\-Type $>$\-::{\bf build} (
+\begin{DoxyParamCaption}
+\item[{std\-::ostream \&}]{ss}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{classlatex_1_1doc_1_1Document_a8ae50f6e90452fce2dc036b8fd30a052}
+\-Helper for outputting the document to a generic std\-::ostream \hypertarget{classlatex_1_1doc_1_1Document_ad62f7f8b1f05f3d6edb2734ba0611913}{\index{latex\-::doc\-::\-Document@{latex\-::doc\-::\-Document}!to\-\_\-string@{to\-\_\-string}}
+\index{to\-\_\-string@{to\-\_\-string}!latex::doc::Document@{latex\-::doc\-::\-Document}}
+\subsubsection[{to\-\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Doc\-Type  = doctypes\-::\-Article$>$ std\-::string {\bf latex\-::doc\-::\-Document}$<$ \-Doc\-Type $>$\-::{\bf to\-\_\-string} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{classlatex_1_1doc_1_1Document_ad62f7f8b1f05f3d6edb2734ba0611913}
+\-Get the entire, \-La\-Te\-X-\/formatted, document in a std\-::string. \hypertarget{classlatex_1_1doc_1_1Document_a0f449ee90309de24177f4bbc51bcc404}{\index{latex\-::doc\-::\-Document@{latex\-::doc\-::\-Document}!use@{use}}
+\index{use@{use}!latex::doc::Document@{latex\-::doc\-::\-Document}}
+\subsubsection[{use}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Doc\-Type  = doctypes\-::\-Article$>$ {\bf \-Document}\& {\bf latex\-::doc\-::\-Document}$<$ \-Doc\-Type $>$\-::{\bf use} (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{import}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{classlatex_1_1doc_1_1Document_a0f449ee90309de24177f4bbc51bcc404}
+\-Import a package into the document \hypertarget{classlatex_1_1doc_1_1Document_a02070e69275d800b16c25f99725b5363}{\index{latex\-::doc\-::\-Document@{latex\-::doc\-::\-Document}!with\-\_\-leading\-\_\-content@{with\-\_\-leading\-\_\-content}}
+\index{with\-\_\-leading\-\_\-content@{with\-\_\-leading\-\_\-content}!latex::doc::Document@{latex\-::doc\-::\-Document}}
+\subsubsection[{with\-\_\-leading\-\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Doc\-Type  = doctypes\-::\-Article$>$ {\bf \-Document}\& {\bf latex\-::doc\-::\-Document}$<$ \-Doc\-Type $>$\-::{\bf with\-\_\-leading\-\_\-content} (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{content}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{classlatex_1_1doc_1_1Document_a02070e69275d800b16c25f99725b5363}
+\-Builder pattern method for adding leading content \hypertarget{classlatex_1_1doc_1_1Document_a42eea3ed819c215c5addf8b10fae4302}{\index{latex\-::doc\-::\-Document@{latex\-::doc\-::\-Document}!with\-\_\-toc@{with\-\_\-toc}}
+\index{with\-\_\-toc@{with\-\_\-toc}!latex::doc::Document@{latex\-::doc\-::\-Document}}
+\subsubsection[{with\-\_\-toc}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Doc\-Type  = doctypes\-::\-Article$>$ {\bf \-Document}\& {\bf latex\-::doc\-::\-Document}$<$ \-Doc\-Type $>$\-::{\bf with\-\_\-toc} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{classlatex_1_1doc_1_1Document_a42eea3ed819c215c5addf8b10fae4302}
+\-Enable the table of contents if allowed by the document type \hypertarget{classlatex_1_1doc_1_1Document_a4225432b9f4e3837c4251c9b97c413c6}{\index{latex\-::doc\-::\-Document@{latex\-::doc\-::\-Document}!write\-\_\-leading@{write\-\_\-leading}}
+\index{write\-\_\-leading@{write\-\_\-leading}!latex::doc::Document@{latex\-::doc\-::\-Document}}
+\subsubsection[{write\-\_\-leading}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Doc\-Type  = doctypes\-::\-Article$>$ void {\bf latex\-::doc\-::\-Document}$<$ \-Doc\-Type $>$\-::{\bf write\-\_\-leading} (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{content}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{classlatex_1_1doc_1_1Document_a4225432b9f4e3837c4251c9b97c413c6}
+\-Write leading text (what comes before the sections in the document) into the document. 
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+latex.\-hpp\end{DoxyCompactItemize}
