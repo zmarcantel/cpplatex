@@ -103,6 +103,170 @@ TEST(Document, sections) {
 }
 
 
+//
+// lists
+//
+
+TEST(List, with_latex) {
+    doc::List<> list;
+
+    // as of writing, Equation does not have a ::to_string()
+    auto eqn = math::make_eqn(
+        math::Variable<Text<style::Bold, style::Italic>>("x"),
+        (math::make_num(7) * 8) / 5
+    );
+
+    list
+        << "an item"
+        << eqn;
+
+    auto expect = 
+        "\\begin{itemize}\n"
+        "\t\\item an item\n"
+        "\t\\item \\begin{equation}\n"
+        "\\textbf{\\textit{x}} = \\frac{7 * 8}{5}\n"
+        "\\end{equation}\n"
+        "\n"
+        "\\end{itemize}\n";
+
+    EXPECT_EQ(expect, list.to_string());
+}
+
+TEST(List, with_to_string) {
+    doc::List<> list;
+
+    list
+        << "an item"
+        << Text<style::Bold, style::Italic>("some stylized text");
+
+    auto expect = 
+        "\\begin{itemize}\n"
+        "\t\\item an item\n"
+        "\t\\item \\textbf{\\textit{some stylized text}}\n"
+        "\\end{itemize}\n";
+
+    EXPECT_EQ(expect, list.to_string());
+}
+
+TEST(List, unordered) {
+    doc::List<> list;
+    list
+        << "an item"
+        << "another item"
+        << "third item"
+        << "and another bullet point";
+
+    auto expect =
+        "\\begin{itemize}\n"
+        "\t\\item an item\n"
+        "\t\\item another item\n"
+        "\t\\item third item\n"
+        "\t\\item and another bullet point\n"
+        "\\end{itemize}\n";
+
+    EXPECT_EQ(expect, list.to_string());
+}
+
+TEST(List, unordered_nested) {
+    doc::List<> list;
+    doc::List<> sublist;
+    doc::List<> third_tier;
+
+    third_tier << "this takes a lot of explaining!";
+    sublist 
+        << "a note"
+        << "another consideration"
+        << "one more!"
+            << third_tier;
+
+    list
+        << "an item"
+        << "need more info"
+            << sublist
+        << "third item"
+        << "and another bullet point";
+
+    auto expect =
+        "\\begin{itemize}\n"
+        "\t\\item an item\n"
+        "\t\\item need more info\n"
+        "\t\\begin{itemize}\n"
+        "\t\t\\item a note\n"
+        "\t\t\\item another consideration\n"
+        "\t\t\\item one more!\n"
+        "\t\t\\begin{itemize}\n"
+        "\t\t\t\\item this takes a lot of explaining!\n"
+        "\t\t\\end{itemize}\n"
+        "\t\\end{itemize}\n"
+        "\t\\item third item\n"
+        "\t\\item and another bullet point\n"
+        "\\end{itemize}\n";
+
+    EXPECT_EQ(expect, list.to_string());
+}
+
+
+// ordered
+
+TEST(List, ordered) {
+    doc::List<doc::listtypes::Ordered> list;
+    list
+        << "an item"
+        << "another item"
+        << "third item"
+        << "and another bullet point";
+
+    auto expect =
+        "\\begin{enumerate}\n"
+        "\t\\item an item\n"
+        "\t\\item another item\n"
+        "\t\\item third item\n"
+        "\t\\item and another bullet point\n"
+        "\\end{enumerate}\n";
+
+    EXPECT_EQ(expect, list.to_string());
+}
+
+TEST(List, ordered_nested) {
+    doc::List<doc::listtypes::Ordered> list;
+    doc::List<doc::listtypes::Ordered> sublist;
+    doc::List<doc::listtypes::Ordered> third_tier;
+
+    third_tier << "this takes a lot of explaining!";
+    sublist 
+        << "a note"
+        << "another consideration"
+        << "one more!"
+            << third_tier;
+
+    list
+        << "an item"
+        << "need more info"
+            << sublist
+        << "third item"
+        << "and another bullet point";
+
+    auto expect =
+        "\\begin{enumerate}\n"
+        "\t\\item an item\n"
+        "\t\\item need more info\n"
+        "\t\\begin{enumerate}\n"
+        "\t\t\\item a note\n"
+        "\t\t\\item another consideration\n"
+        "\t\t\\item one more!\n"
+        "\t\t\\begin{enumerate}\n"
+        "\t\t\t\\item this takes a lot of explaining!\n"
+        "\t\t\\end{enumerate}\n"
+        "\t\\end{enumerate}\n"
+        "\t\\item third item\n"
+        "\t\\item and another bullet point\n"
+        "\\end{enumerate}\n";
+
+    EXPECT_EQ(expect, list.to_string());
+}
+
+
+
 //------------------------------------------------
 //
 // math::solve() correctness

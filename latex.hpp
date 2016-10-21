@@ -113,7 +113,7 @@ public:
     Text(const char* t) : raw(std::string(t)) {}
     Text(const std::string& t) : raw(t) {}
 
-    std::string str() const {
+    std::string to_string() const {
         std::stringstream ss;
         build(ss);
         return ss.str();
@@ -163,34 +163,136 @@ using UnderlineText = Text<style::Underline>;
 //------------------------------------------------
 
 namespace doc {
-    namespace doctypes {
-        /** Use the 'article' doctype for document generation.
-         */
-        class Article {
-            public:
-            constexpr const static char* header = "article";
-            constexpr const static bool can_toc = false;
-            constexpr const static bool can_subtitle = false;
+    //
+    // ::to_string() enable_if "interface"
+    //
+    template <typename T> auto to_string_impl(int) -> decltype(std::declval<T>().to_string(), std::true_type{});
+    template <typename T> auto to_string_impl(...) -> std::false_type;
+    template <typename T> using can_stringify = decltype(to_string_impl<T>(0));
+
+    //
+    // ::latex() enable_if "interface"
+    //
+    template <typename T> auto latex_impl(int) -> decltype(std::declval<T>().latex(), std::true_type{});
+    template <typename T> auto latex_impl(...) -> std::false_type;
+    template <typename T> using can_latex = decltype(latex_impl<T>(0));
+
+
+
+    namespace listtypes {
+        /** Specifies the list should be represented in an ordered (numbered rather than bulleted) form. */
+        class Ordered {
+        public:
+            constexpr const static char* open = "\\begin{enumerate}";
+            constexpr const static char* close = "\\end{enumerate}";
         };
 
-        /** Use the 'report' doctype for document generation.
-         */
-        class Report {
-            public:
-            constexpr const static char* header = "report";
-            constexpr const static bool can_toc = true;
-            constexpr const static bool can_subtitle = true;
-        };
-
-        /** Use the 'book' doctype for document generation.
-         */
-        class Book {
-            public:
-            constexpr const static char* header = "book";
-            constexpr const static bool can_toc = true;
-            constexpr const static bool can_subtitle = true;
+        /** Specifies the list should be represented in a bulleted format */
+        class Unordered {
+        public:
+            constexpr const static char* open = "\\begin{itemize}";
+            constexpr const static char* close = "\\end{itemize}";
         };
     }
+
+    /** Create a LaTeX formatted list.
+     *
+     * Nested lists must be of the same style (i.e. cannot mix Ordered and Unordered).
+     */
+    template <typename Style=listtypes::Unordered>
+    class List {
+    protected:
+        enum class EntryType : std::uint8_t {
+            String,
+            Sublist,
+        };
+        std::vector<EntryType> ordering;
+
+    public:
+        std::vector<std::string> items;
+        std::vector<List<Style>> sublists;
+
+        //
+        // input
+        //
+
+        List<Style>& operator<<(const char* val) { add(std::string(val)); return *this; }
+        List<Style>& operator<<(const std::string& val) { add(val); return *this; }
+
+        List<Style>& operator<<(List<Style>& val) { add_sublist(val); return *this; }
+        List<Style>& operator<<(const List<Style>& val) { add_sublist(val); return *this; }
+
+        template <
+            typename T,
+            typename = typename std::enable_if<
+                can_stringify<T>::value
+                and
+                (not std::is_same<T, List<listtypes::Ordered>>::value and not std::is_same<T, List<listtypes::Unordered>>::value)
+            >::type
+        >
+        List<Style>& operator<<(const T& val) { add(val.to_string()); return *this; }
+
+        template <typename T>
+        typename std::enable_if<
+            can_latex<T>::value
+            , List<Style>&
+        >::type
+        operator<<(const T& val) { add(val.latex()); return *this; }
+
+        void add(const std::string& str) {
+            items.push_back(str);
+            ordering.push_back(EntryType::String);
+        }
+
+        void add_sublist(const List<Style>& list) {
+            sublists.push_back(list);
+            ordering.push_back(EntryType::Sublist);
+        }
+
+        //
+        // output
+        //
+
+        std::string to_string() const {
+            std::stringstream ss;
+            build(ss);
+            return ss.str();
+        }
+
+        friend std::ostream& operator<<(std::ostream& os, List& list) { list.build(os); return os; }
+
+        void build(std::ostream& os, std::size_t depth = 1) const {
+            auto itemit = items.begin();
+            auto subit = sublists.begin();
+
+            std::stringstream prefix;
+            for (auto i = 1u; i < depth; ++i) { prefix << "\t"; } // start at 1 to make it one less than the constituent items
+
+            os << prefix.str() << Style::open << std::endl;
+            for (auto& type : ordering) {
+                switch (type) {
+                case EntryType::String:
+                    if (itemit != items.end()) {
+                        os << prefix.str() << "\t" /* one more */ << "\\item " << *itemit << std::endl;
+                        itemit++;
+                    } else {
+                        throw std::runtime_error("attempted to output a list item, but no items remaining.");
+                    }
+                    break;
+
+                case EntryType::Sublist:
+                    if (subit != sublists.end()) {
+                        (*subit).build(os, depth+1);
+                        subit++;
+                    } else {
+                        throw std::runtime_error("attempted to output a sublist item, but no sublists remaining.");
+                    }
+                    break;
+                }
+            }
+            os << prefix.str() << Style::close << std::endl;
+        }
+    };
 
     // TODO: "infinitely" nested subsections
     /** Defines a subsection (\subsection{}) within a section.
@@ -260,6 +362,36 @@ namespace doc {
 
             void add_subsection(const Subsection& sub) { *this << sub; }
     };
+
+
+    namespace doctypes {
+        /** Use the 'article' doctype for document generation.
+         */
+        class Article {
+            public:
+            constexpr const static char* header = "article";
+            constexpr const static bool can_toc = false;
+            constexpr const static bool can_subtitle = false;
+        };
+
+        /** Use the 'report' doctype for document generation.
+         */
+        class Report {
+            public:
+            constexpr const static char* header = "report";
+            constexpr const static bool can_toc = true;
+            constexpr const static bool can_subtitle = true;
+        };
+
+        /** Use the 'book' doctype for document generation.
+         */
+        class Book {
+            public:
+            constexpr const static char* header = "book";
+            constexpr const static bool can_toc = true;
+            constexpr const static bool can_subtitle = true;
+        };
+    }
 
 
     /** Defines a document which is the root for generating a valid LaTeX document.

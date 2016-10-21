@@ -31,7 +31,7 @@ CPPPATH = [
 
 CPPFLAGS = [
     # required C++ flags
-    '-std=c++14',
+    '-std=c++14' if not GetOption('travis') and not GetOption('clang') else '-std=c++1y',
 ]
 
 GCC_CPPFLAGS = [
@@ -51,8 +51,8 @@ def append_flags(src, to):
 FLAGSET = COMMONFLAGS
 
 if GetOption('clang'):
-    CXXCOMPILER='clang++' if not GetOption('travis') else 'clang++-3.8'
-    CCCOMPILER='clang' if not GetOption('travis') else 'clang-3.8'
+    CXXCOMPILER='clang++' if not GetOption('travis') else '/usr/local/clang-3.4/bin/clang++'
+    CCCOMPILER='clang' if not GetOption('travis') else '/usr/local/clang-3.4/bin/clang'
 else:
     append_flags(GCC_CPPFLAGS, FLAGSET)
 
