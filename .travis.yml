@@ -16,6 +16,10 @@ compiler:
   - clang
   - gcc
 
+env:
+  matrix:
+    - DOCS="yes"
+
 before_script:
   - cd /home/travis
   - mkdir gtest
@@ -27,3 +31,4 @@ before_script:
 script:
   - if [ "$CXX" = "clang++" ]; then scons --clang --travis; fi
   - if [ "$CXX" = "g++" ]; then scons --travis; fi
+  - if [ "$DOCS" = "yes" ]; then ./ghp_upload.sh; fi
