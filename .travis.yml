@@ -11,14 +11,11 @@ addons:
       - g++-5
       - gcc-5
       - libgtest-dev
+      - doxygen
 
 compiler:
   - clang
   - gcc
-
-env:
-  matrix:
-    - DOCS="yes"
 
 before_script:
   - cd /home/travis
@@ -31,4 +28,5 @@ before_script:
 script:
   - if [ "$CXX" = "clang++" ]; then scons --clang --travis; fi
   - if [ "$CXX" = "g++" ]; then scons --travis; fi
-  - if [ "$DOCS" = "yes" ]; then ./ghp_upload.sh; fi
+
+after_success: ./ghp_upload.sh
