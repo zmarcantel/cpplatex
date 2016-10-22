@@ -97,6 +97,7 @@ namespace style {
         constexpr const static char* open = "\\Huge{";
         constexpr const static char* close = "}";
     };
+
 }
 
 
@@ -154,6 +155,14 @@ protected:
 using ItalicText = Text<style::Italic>;
 using BoldText = Text<style::Bold>;
 using UnderlineText = Text<style::Underline>;
+
+using TinyText = Text<style::Tiny>;
+using SmallText = Text<style::Small>;
+using LargeText = Text<style::Large>;
+using LargerText = Text<style::Larger>;
+using LargestText = Text<style::Largest>;
+using HugeText = Text<style::Huge>;
+using HugerText = Text<style::Huger>;
 
 
 //------------------------------------------------
@@ -293,6 +302,10 @@ namespace doc {
             os << prefix.str() << Style::close << std::endl;
         }
     };
+
+    using OrderedList = List<listtypes::Ordered>;
+    using UnorderedList = List<listtypes::Unordered>;
+
 
     // TODO: "infinitely" nested subsections
     /** Defines a subsection (\subsection{}) within a section.
@@ -493,6 +506,10 @@ namespace doc {
                 ss << "\\end{document}\n";
             }
     };
+
+    using Article = Document<doctypes::Article>;
+    using Report = Document<doctypes::Report>;
+    using Book = Document<doctypes::Book>;
 
 } // doc namespace
 
