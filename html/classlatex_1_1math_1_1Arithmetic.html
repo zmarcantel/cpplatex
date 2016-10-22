@@ -107,6 +107,10 @@ template&lt;typename T &gt; </td></tr>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a9a49c562d2e384aaec7b6e0f52932eac"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><b>SubtractionType</b> = <a class="el" href="classlatex_1_1math_1_1Subtraction.html">Subtraction</a>&lt; Self, T &gt;</td></tr>
 <tr class="separator:a9a49c562d2e384aaec7b6e0f52932eac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a269e55722b37c6660801cf23fec615e5"><td class="memTemplParams" colspan="2"><a class="anchor" id="a269e55722b37c6660801cf23fec615e5"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a269e55722b37c6660801cf23fec615e5"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><b>InverseSubtractionType</b> = <a class="el" href="classlatex_1_1math_1_1Subtraction.html">Subtraction</a>&lt; T, Self &gt;</td></tr>
+<tr class="separator:a269e55722b37c6660801cf23fec615e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a554373e2a106a04eb060a15141d0cac9"><td class="memTemplParams" colspan="2"><a class="anchor" id="a554373e2a106a04eb060a15141d0cac9"></a>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a554373e2a106a04eb060a15141d0cac9"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><b>MultiplicationType</b> = <a class="el" href="classlatex_1_1math_1_1Multiplication.html">Multiplication</a>&lt; Self, T &gt;</td></tr>
@@ -115,6 +119,10 @@ template&lt;typename T &gt; </td></tr>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a55d6e6be63edc6fea45195fe953ab902"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><b>FractionType</b> = <a class="el" href="classlatex_1_1math_1_1Fraction.html">Fraction</a>&lt; Self, T &gt;</td></tr>
 <tr class="separator:a55d6e6be63edc6fea45195fe953ab902"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2930ddb8252ec1f4bdc424ac1257e85f"><td class="memTemplParams" colspan="2"><a class="anchor" id="a2930ddb8252ec1f4bdc424ac1257e85f"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a2930ddb8252ec1f4bdc424ac1257e85f"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><b>InverseFractionType</b> = <a class="el" href="classlatex_1_1math_1_1Fraction.html">Fraction</a>&lt; T, Self &gt;</td></tr>
+<tr class="separator:a2930ddb8252ec1f4bdc424ac1257e85f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71daf5ab720de2222a40ea2539b6e24e"><td class="memTemplParams" colspan="2"><a class="anchor" id="a71daf5ab720de2222a40ea2539b6e24e"></a>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a71daf5ab720de2222a40ea2539b6e24e"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><b>ExponentType</b> = <a class="el" href="classlatex_1_1math_1_1Exponent.html">Exponent</a>&lt; Self, T &gt;</td></tr>
@@ -129,22 +137,22 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>NaturalLogType</b> =
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a155d480ff9b7bc80905693bf242bb33c"><td class="memTemplParams" colspan="2"><a class="anchor" id="a155d480ff9b7bc80905693bf242bb33c"></a>
+<tr class="memitem:a723185210d9371d99122644212c27804"><td class="memTemplParams" colspan="2"><a class="anchor" id="a723185210d9371d99122644212c27804"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a155d480ff9b7bc80905693bf242bb33c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classlatex_1_1math_1_1Addition.html">AdditionType</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+</b> (Self lhs, const T &amp;rhs)</td></tr>
-<tr class="separator:a155d480ff9b7bc80905693bf242bb33c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24cab9ec4a616c0867cff93fc12cebb9"><td class="memTemplParams" colspan="2"><a class="anchor" id="a24cab9ec4a616c0867cff93fc12cebb9"></a>
+<tr class="memitem:a723185210d9371d99122644212c27804"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classlatex_1_1math_1_1Addition.html">AdditionType</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+</b> (const Self &amp;lhs, T rhs)</td></tr>
+<tr class="separator:a723185210d9371d99122644212c27804"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52cc8d111ab9bc86be444a30821be8bd"><td class="memTemplParams" colspan="2"><a class="anchor" id="a52cc8d111ab9bc86be444a30821be8bd"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a24cab9ec4a616c0867cff93fc12cebb9"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classlatex_1_1math_1_1Subtraction.html">SubtractionType</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-</b> (Self lhs, const T &amp;rhs)</td></tr>
-<tr class="separator:a24cab9ec4a616c0867cff93fc12cebb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa267f966985c6d88035fa9303a4596e4"><td class="memTemplParams" colspan="2"><a class="anchor" id="aa267f966985c6d88035fa9303a4596e4"></a>
+<tr class="memitem:a52cc8d111ab9bc86be444a30821be8bd"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classlatex_1_1math_1_1Subtraction.html">SubtractionType</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-</b> (const Self &amp;lhs, T rhs)</td></tr>
+<tr class="separator:a52cc8d111ab9bc86be444a30821be8bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36b3fccce6395ab2e8effe6cd705195c"><td class="memTemplParams" colspan="2"><a class="anchor" id="a36b3fccce6395ab2e8effe6cd705195c"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:aa267f966985c6d88035fa9303a4596e4"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classlatex_1_1math_1_1Multiplication.html">MultiplicationType</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator*</b> (Self lhs, const T &amp;rhs)</td></tr>
-<tr class="separator:aa267f966985c6d88035fa9303a4596e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af38965342bb2cef83ee88be612d03b63"><td class="memTemplParams" colspan="2"><a class="anchor" id="af38965342bb2cef83ee88be612d03b63"></a>
+<tr class="memitem:a36b3fccce6395ab2e8effe6cd705195c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classlatex_1_1math_1_1Multiplication.html">MultiplicationType</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator*</b> (const Self &amp;lhs, T rhs)</td></tr>
+<tr class="separator:a36b3fccce6395ab2e8effe6cd705195c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af953ccc64ff8027e3b02a0ccb4013ea8"><td class="memTemplParams" colspan="2"><a class="anchor" id="af953ccc64ff8027e3b02a0ccb4013ea8"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:af38965342bb2cef83ee88be612d03b63"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classlatex_1_1math_1_1Fraction.html">FractionType</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator/</b> (Self lhs, const T &amp;rhs)</td></tr>
-<tr class="separator:af38965342bb2cef83ee88be612d03b63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af953ccc64ff8027e3b02a0ccb4013ea8"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classlatex_1_1math_1_1Fraction.html">FractionType</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator/</b> (const Self &amp;lhs, T rhs)</td></tr>
+<tr class="separator:af953ccc64ff8027e3b02a0ccb4013ea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename Self&gt;<br/>
