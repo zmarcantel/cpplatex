@@ -34,7 +34,7 @@ TEST(Document, empty_document) {
     doc::Document<doc::doctypes::Article> doc("Title");
 
     std::string expect = ""
-    "\\documentclass{article}"
+    "\\documentclass[12pt]{article}"
     "\\title{Title}"
     ""
     "\\begin{document}"
@@ -66,7 +66,7 @@ TEST(Document, sections) {
     doc << section;
 
     std::string expect = ""
-    "\\documentclass{report}\n"
+    "\\documentclass[12pt]{report}\n"
     "\n"
     "\\title{Some Title \\\\ And A Subtitle}\n"
     "\n"

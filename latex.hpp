@@ -325,6 +325,9 @@ namespace doc {
             Subsection& operator<<(const char* val) {content.push_back(std::string(val)); return *this;}
             Subsection& operator<<(const std::string& val) {content.push_back(val); return *this;}
 
+            template <typename T, typename = typename std::enable_if<can_stringify<T>::value>::type>
+            Subsection& operator<<(const T& val) { content.push_back(val.to_string()); return *this; }
+
             friend std::ostream& operator<<(std::ostream& os, const Subsection& sub) {
                 os << "\\subsection{" << sub.title << "}\n\n";
 
@@ -358,6 +361,9 @@ namespace doc {
             Section& operator<<(const char* val) {leading_content.push_back(std::string(val)); return *this;}
             Section& operator<<(const std::string& val) {leading_content.push_back(val); return *this;}
             Section& operator<<(const Subsection& val) {subs.push_back(val); return *this;}
+
+            template <typename T, typename = typename std::enable_if<can_stringify<T>::value>::type>
+            Section& operator<<(const T& val) { leading_content.push_back(val.to_string()); return *this; }
 
             friend std::ostream& operator<<(std::ostream& os, const Section& sect) {
                 os << "\\section{" << sect.title << "}\n\n";
@@ -407,6 +413,7 @@ namespace doc {
     }
 
 
+    // TODO: part ordering scheme like in List
     /** Defines a document which is the root for generating a valid LaTeX document.
      *
      * Documents must be given a title, and optionally a subtitle.
@@ -418,7 +425,7 @@ namespace doc {
      *
      * Leading content is output first, followed by all sections (and their subsections).
      */
-    template<typename DocType=doctypes::Article>
+    template<typename DocType=doctypes::Article, std::uint8_t font_size = 12>
     class Document {
         public:
             std::string title;
@@ -472,7 +479,7 @@ namespace doc {
 
             /** Helper for outputting the document to a generic std::ostream */
             void build(std::ostream& ss) const {
-                ss << "\\documentclass{" << DocType::header << "}\n"
+                ss << "\\documentclass[" << (std::size_t)font_size << "pt]{" << DocType::header << "}\n"
                    << "\n";
 
                 if (DocType::can_subtitle and subtitle.size()) {
