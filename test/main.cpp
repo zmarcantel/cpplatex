@@ -314,6 +314,11 @@ TEST(MathSolve, addition) {
     EXPECT_EQ(12, add.solve());
 }
 
+TEST(MathSolve, addition_pod_plus_latex) {
+    auto result = 5 + (7 + math::make_num(3));
+    EXPECT_EQ(15, result.solve());
+}
+
 TEST(MathSolve, addition_custom_type) {
     auto result = math::make_add(CustomType<int>(5), 10);
     EXPECT_EQ(15, result.solve().val);
@@ -326,6 +331,11 @@ TEST(MathSolve, addition_custom_type) {
 TEST(MathSolve, subtraction) {
     math::Subtraction<int> sub(18, 6);
     EXPECT_EQ(12, sub.solve());
+}
+
+TEST(MathSolve, subtraction_pod_minus_latex) {
+    auto result = 5 - (math::make_num(7) - 4);
+    EXPECT_EQ(2, result.solve());
 }
 
 // inherently tests negative after subtraction
@@ -343,6 +353,12 @@ TEST(MathSolve, multiplication) {
     math::Multiplication<int> mul(18, 6);
     EXPECT_EQ(108, mul.solve());
 }
+
+TEST(MathSolve, multiplication_pod_times_latex) {
+    auto result = 5 * (1 + math::make_num(3));
+    EXPECT_EQ(20, result.solve());
+}
+
 
 TEST(MathSolve, multiplication_custom_type) {
     auto result = math::make_mult(CustomType<int>(5), 10);
@@ -364,7 +380,6 @@ TEST(MathSolve, fraction_doubles) {
     EXPECT_EQ(0.5, as_doubles.solve());
 }
 
-
 TEST(MathSolve, fraction_int_over_double) {
     math::Fraction<int, double> int_over_double(1, 2);
     EXPECT_EQ(0.5, int_over_double.solve());
@@ -373,6 +388,11 @@ TEST(MathSolve, fraction_int_over_double) {
 TEST(MathSolve, fraction_double_over_int) {
     math::Fraction<int, double> double_over_int(1, 2);
     EXPECT_EQ(0.5, double_over_int.solve());
+}
+
+TEST(MathSolve, fraction_pod_over_latex) {
+    auto result = 30 / (math::make_num(2) * 3);
+    EXPECT_EQ(5, result.solve());
 }
 
 TEST(MathSolve, fraction_custom_type) {

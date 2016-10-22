@@ -550,16 +550,16 @@ namespace math {
         using NaturalLogType = NaturalLog<Self>;
 
         template <typename T>
-        friend AdditionType<T> operator+(Self lhs, const T& rhs) { return AdditionType<T>(lhs, rhs); }
+        friend AdditionType<T> operator+(const Self& lhs, T rhs) { return AdditionType<T>(lhs, rhs); }
 
         template <typename T>
-        friend SubtractionType<T> operator-(Self lhs, const T& rhs) { return SubtractionType<T>(lhs, rhs); }
+        friend SubtractionType<T> operator-(const Self& lhs, T rhs) { return SubtractionType<T>(lhs, rhs); }
 
         template <typename T>
-        friend MultiplicationType<T> operator*(Self lhs, const T& rhs) { return MultiplicationType<T>(lhs, rhs); }
+        friend MultiplicationType<T> operator*(const Self& lhs, T rhs) { return MultiplicationType<T>(lhs, rhs); }
 
         template <typename T>
-        friend FractionType<T> operator/(Self lhs, const T& rhs) { return FractionType<T>(lhs, rhs); }
+        friend FractionType<T> operator/(const Self& lhs, T rhs) { return FractionType<T>(lhs, rhs); }
     };
 
 
@@ -1019,4 +1019,22 @@ namespace math {
 
 
 } // latex namespace
+
+
+//
+// global operators for "reversed operand" math
+//
+
+template <typename T, typename L, typename = typename std::enable_if<latex::math::can_solve<L>::value>::type>
+latex::math::Addition<T, L> operator+(const T& lhs, L rhs) { return latex::math::Addition<T, L>(lhs, rhs); }
+
+template <typename T, typename L, typename = typename std::enable_if<latex::math::can_solve<L>::value>::type>
+latex::math::Subtraction<T, L> operator-(const T& lhs, L rhs) { return latex::math::Subtraction<T, L>(lhs, rhs); }
+
+template <typename T, typename L, typename = typename std::enable_if<latex::math::can_solve<L>::value>::type>
+latex::math::Multiplication<T, L> operator*(const T& lhs, L rhs) { return latex::math::Multiplication<T, L>(lhs, rhs); }
+
+template <typename T, typename L, typename = typename std::enable_if<latex::math::can_solve<L>::value>::type>
+latex::math::Fraction<T, L> operator/(const T& lhs, L rhs) { return latex::math::Fraction<T, L>(lhs, rhs); }
+
 #endif
