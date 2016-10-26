@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classlatex_1_1math_1_1Arithmetic.html" title="latex::math::Arithmetic\l\&lt; Multiplication\&lt; LHS,\l RHS \&gt; \&gt;" alt="" coords="5,5,160,69"/>
-<area shape="rect" id="node3" href="$classlatex_1_1math_1_1Multiplication.html" title="latex::math::Multiplication\l\&lt; LHS, RHS \&gt;" alt="" coords="208,14,379,61"/>
+<area shape="rect" id="node1" href="$classlatex_1_1math_1_1Arithmetic.html" title="latex::math::Arithmetic\l\&lt; Log\&lt; Val, Base \&gt; \&gt;" alt="" coords="5,5,160,51"/>
+<area shape="rect" id="node3" href="$classlatex_1_1math_1_1Log.html" title="latex::math::Log\&lt; Val,\l Base \&gt;" alt="" coords="209,5,359,51"/>
 </map>

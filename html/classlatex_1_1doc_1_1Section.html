@@ -100,9 +100,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a675efb7af929560c3a6a07536c50d133"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a675efb7af929560c3a6a07536c50d133"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Section</b> (const std::string &amp;title)</td></tr>
-<tr class="separator:a675efb7af929560c3a6a07536c50d133"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99c69592d8b4c6ef13104554a089acae"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a99c69592d8b4c6ef13104554a089acae"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Section</b> (const std::string &amp;title, bool new_page=false)</td></tr>
+<tr class="separator:a99c69592d8b4c6ef13104554a089acae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53e777158eda75ac8f5cac6362d9f174"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a53e777158eda75ac8f5cac6362d9f174"></a>
 <a class="el" href="classlatex_1_1doc_1_1Section.html">Section</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (const char *val)</td></tr>
 <tr class="separator:a53e777158eda75ac8f5cac6362d9f174"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -116,12 +116,21 @@ Public Member Functions</h2></td></tr>
 template&lt;typename T , typename  = typename std::enable_if&lt;can_stringify&lt;T&gt;::value&gt;::type&gt; </td></tr>
 <tr class="memitem:ad48591936cf908cf47b311648cd9c436"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classlatex_1_1doc_1_1Section.html">Section</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;</b> (const T &amp;val)</td></tr>
 <tr class="separator:ad48591936cf908cf47b311648cd9c436"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee19d01d31a21de2aa99be24177e23db"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aee19d01d31a21de2aa99be24177e23db"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>build</b> (std::ostream &amp;os) const </td></tr>
+<tr class="separator:aee19d01d31a21de2aa99be24177e23db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfc9deb9a224361cd9ab62b8cf293fd4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adfc9deb9a224361cd9ab62b8cf293fd4"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>latex</b> () const </td></tr>
+<tr class="separator:adfc9deb9a224361cd9ab62b8cf293fd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6ac21c9c03fec82ad67758d2eef050a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6ac21c9c03fec82ad67758d2eef050a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>add_subsection</b> (const <a class="el" href="classlatex_1_1doc_1_1Subsection.html">Subsection</a> &amp;sub)</td></tr>
 <tr class="separator:ab6ac21c9c03fec82ad67758d2eef050a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
+<tr class="memitem:abf2739ed110a403fc2bec61b98692d4c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf2739ed110a403fc2bec61b98692d4c"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>new_page</b></td></tr>
+<tr class="separator:abf2739ed110a403fc2bec61b98692d4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6e7088b15a34c0faf4f60fd97f8a8d6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af6e7088b15a34c0faf4f60fd97f8a8d6"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>title</b></td></tr>
 <tr class="separator:af6e7088b15a34c0faf4f60fd97f8a8d6"><td class="memSeparator" colspan="2">&#160;</td></tr>

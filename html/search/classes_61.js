@@ -1,6 +1,7 @@
 var searchData=
 [
   ['addition',['Addition',['../classlatex_1_1math_1_1Addition.html',1,'latex::math']]],
+  ['alignedequation',['AlignedEquation',['../classlatex_1_1math_1_1AlignedEquation.html',1,'latex::math']]],
   ['arithmetic',['Arithmetic',['../classlatex_1_1math_1_1Arithmetic.html',1,'latex::math']]],
   ['arithmetic_3c_20addition_3c_20lhs_2c_20rhs_20_3e_20_3e',['Arithmetic&lt; Addition&lt; LHS, RHS &gt; &gt;',['../classlatex_1_1math_1_1Arithmetic.html',1,'latex::math']]],
   ['arithmetic_3c_20exponent_3c_20lhs_2c_20rhs_20_3e_20_3e',['Arithmetic&lt; Exponent&lt; LHS, RHS &gt; &gt;',['../classlatex_1_1math_1_1Arithmetic.html',1,'latex::math']]],
