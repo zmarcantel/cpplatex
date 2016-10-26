@@ -62,8 +62,13 @@ TEST(Document, sections) {
     subsection << "Here is some clarification on that thing I was talking about.\n";
 
     section << subsection;
-
     doc << section;
+
+    doc::Section new_page_section("This section is forced to a new page!", true);
+    new_page_section << "Just some stuff\n";
+
+    doc << new_page_section;
+
 
     std::string expect = ""
     "\\documentclass[12pt]{report}\n"
@@ -93,6 +98,17 @@ TEST(Document, sections) {
     "Here is some clarification on that thing I was talking about.\n"
     "\n"
     "\n"
+    "\n"
+    "\n"
+    "\n"
+    "\n"
+    "\n"
+    "\n"
+    "\\newpage\n"
+    "\n"
+    "\\section{This section is forced to a new page!}\n"
+    "\n"
+    "Just some stuff\n"
     "\n"
     "\n"
     "\n"
@@ -265,6 +281,21 @@ TEST(List, ordered_nested) {
     EXPECT_EQ(expect, list.to_string());
 }
 
+//
+// sections
+//
+
+TEST(DocumentSection, newpage) {
+    doc::Section sect("Title", true);
+    auto expect =
+        "\n\n"
+        "\\newpage"
+        "\n\n"
+        "\\section{Title}\n"
+        "\n"
+    ;
+    EXPECT_EQ(expect, sect.latex());
+}
 
 
 //------------------------------------------------
@@ -583,6 +614,29 @@ TEST(MathLatex, equation) {
     auto eqn = math::make_eqn(
         math::SubscriptedVariable<Text<style::Italic, style::Bold>, std::string>("R", "flow"),
         result
+    );
+
+    EXPECT_EQ(expect, eqn.latex());
+}
+
+TEST(MathLatex, aligned_equation) {
+    auto expect =
+        "\\begin{equation}\n"
+        "\\begin{split}\n"
+        "\\textit{\\textbf{R}}_{flow} & = \\frac{2 + 5 * {\\left(\\log_{2}{\\left(6.45\\right)} + 2\\right)}^{3}}{\\sqrt{4 * 3}}\\\\\n"
+        " & = 149.412\n"
+        "\\end{split}\n"
+        "\\end{equation}\n";
+
+    auto result =
+        (math::make_num(2) + 5 * (math::make_num(6.45).log<>(2) + 2).pow(3))
+        /
+        (math::make_num(4) * 3).sqrt();
+
+    auto eqn = math::make_aligned_eqn(
+        math::SubscriptedVariable<Text<style::Italic, style::Bold>, std::string>("R", "flow"),
+        result,
+        result.solve()
     );
 
     EXPECT_EQ(expect, eqn.latex());

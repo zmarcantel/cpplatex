@@ -72,8 +72,8 @@ def get_files(env, root, exts):
     filt = re.compile('.*\.({})$'.format('|'.join(exts)))
     for root, dirs, files in os.walk(srcroot, followlinks=True):
         for filename in files:
-	    if filt.match(filename):
-            	src.append(os.path.join(root, filename)[len(srcroot)+1:])
+            if filt.match(filename):
+                src.append(os.path.join(root, filename)[len(srcroot)+1:])
     return src
 AddMethod(Environment, get_files)
 

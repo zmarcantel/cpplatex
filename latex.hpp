@@ -351,12 +351,13 @@ namespace doc {
      */
     class Section {
         protected:
+            bool new_page;
             std::string title;
             std::vector<Subsection> subs;
             std::vector<std::string> leading_content;
 
         public:
-            Section(const std::string& title) : title(title) {}
+            Section(const std::string& title, bool new_page = false) : new_page(new_page), title(title) {}
 
             Section& operator<<(const char* val) {leading_content.push_back(std::string(val)); return *this;}
             Section& operator<<(const std::string& val) {leading_content.push_back(val); return *this;}
@@ -365,17 +366,31 @@ namespace doc {
             template <typename T, typename = typename std::enable_if<can_stringify<T>::value>::type>
             Section& operator<<(const T& val) { leading_content.push_back(val.to_string()); return *this; }
 
-            friend std::ostream& operator<<(std::ostream& os, const Section& sect) {
-                os << "\\section{" << sect.title << "}\n\n";
+            void build(std::ostream& os) const {
+                if (new_page) {
+                    os << "\n\n\\newpage\n\n";
+                }
 
-                for (auto& c : sect.leading_content) {
+                os << "\\section{" << title << "}\n\n";
+
+                for (auto& c : leading_content) {
                     os << c << "\n\n";
                 }
 
-                for (auto& s : sect.subs) {
+                for (auto& s : subs) {
                     os << s << "\n\n";
                 }
+            }
 
+
+            std::string latex() const {
+                std::stringstream ss;
+                build(ss);
+                return ss.str();
+            }
+
+            friend std::ostream& operator<<(std::ostream& os, const Section& sect) {
+                sect.build(os);
                 return os;
             }
 
@@ -945,6 +960,9 @@ namespace math {
         RHS rhs;
         std::string label;
 
+        constexpr const static char* open_context = "\\begin{equation}";
+        constexpr const static char* close_context = "\\end{equation}";
+
     public:
         using LHSType = LHS;
         using RHSType = RHS;
@@ -953,6 +971,14 @@ namespace math {
 
         Equation(const std::string& label, LHS lhs, RHS rhs) : lhs(lhs), rhs(rhs), label(label) {}
 
+        void insert_label(std::ostream& os) const {
+            if (label.size()) {
+                os << "\\label{eq:" << label << "}\n";
+            } else {
+                os << "\n";
+            }
+        }
+
         /** This **does not** solve for variables or balance and solve equations.
          *
          * It simply reduces the right hand side.
@@ -960,16 +986,12 @@ namespace math {
         auto solve() { return rhs.solve(); }
         std::string latex() const {
             std::stringstream ss;
-            ss << "\\begin{equation}";
-            if (label.size()) {
-                ss << "\\label{eq:" << label << "}\n";
-            } else {
-                ss << "\n";
-            }
+            ss << open_context;
 
+            insert_label(ss);
             ss << lhs << " = " << rhs << "\n";
 
-            ss << "\\end{equation}\n";
+            ss << close_context << "\n";
             return ss.str();
         }
 
@@ -980,7 +1002,51 @@ namespace math {
     auto make_eqn(const LHS& lhs, const RHS& rhs) { return Equation<LHS, RHS>(lhs, rhs); }
 
 
-    // TODO: aligned equations
+    template <typename LHS, typename... Steps>
+    class AlignedEquation {
+    protected:
+        std::string eqn;
+
+        constexpr const static char* open_context = "\\begin{equation}";
+        constexpr const static char* close_context = "\\end{equation}";
+        constexpr const static char* split_eq = " & = ";
+
+        template <typename First, typename... T>
+        void print_steps(std::ostream& os, First& f, T... rest) {
+            os << split_eq << f << "\\\\\n";
+            print_steps(os, rest...);
+        }
+
+        template <typename First, typename... T>
+        void print_steps(std::ostream& os, First& f) {
+            os << split_eq << f << "\n";
+        }
+
+    public:
+        AlignedEquation(const LHS& lhs, Steps... steps) {
+            std::stringstream ss;
+            ss << open_context << "\n";
+
+            ss << "\\begin{split}\n";
+
+            ss << lhs;
+            print_steps(ss, steps...);
+
+            ss << "\\end{split}\n";
+            ss << close_context << "\n";
+
+            eqn = ss.str();
+        }
+
+        std::string latex() const { return eqn; }
+
+        friend std::ostream& operator<<(std::ostream& os, const AlignedEquation& eq) { os << eq.latex(); return os;}
+    };
+
+    template <typename LHS, typename... Steps>
+    auto make_aligned_eqn(const LHS& lhs, const Steps... steps) { return AlignedEquation<LHS, Steps...>(lhs, steps...); }
+
+
     // TODO: reference other equation(s)' label
 
 
