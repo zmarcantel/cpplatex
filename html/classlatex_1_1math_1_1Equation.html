@@ -62,7 +62,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -120,8 +119,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>insert_label</b> (std
 <tr class="separator:a8c74a11c75dee6f3ab7f92a322942704"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07edd6119b4c578f0bd109501284120b"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlatex_1_1math_1_1Equation.html#a07edd6119b4c578f0bd109501284120b">solve</a> ()</td></tr>
 <tr class="separator:a07edd6119b4c578f0bd109501284120b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc052b3d3d93f32438ada7338b641d6e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acc052b3d3d93f32438ada7338b641d6e"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>latex</b> () const </td></tr>
+<tr class="memitem:acc052b3d3d93f32438ada7338b641d6e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlatex_1_1math_1_1Equation.html#acc052b3d3d93f32438ada7338b641d6e">latex</a> () const </td></tr>
 <tr class="separator:acc052b3d3d93f32438ada7338b641d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -152,6 +150,32 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 <tr class="separator:af5648da26fb4c842581cc55ebd721494"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="acc052b3d3d93f32438ada7338b641d6e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename LHS , typename RHS &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string <a class="el" href="classlatex_1_1math_1_1Equation.html">latex::math::Equation</a>&lt; LHS, RHS &gt;::latex </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Output the latex formatted version of the eqation. </p>
+
+</div>
+</div>
 <a class="anchor" id="a07edd6119b4c578f0bd109501284120b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -175,7 +199,7 @@ template&lt;typename LHS , typename RHS &gt; </div>
 </table>
 </div><div class="memdoc">
 <p>This <b>does not</b> solve for variables or balance and solve equations.</p>
-<p>It simply reduces the right hand side. </p>
+<p>Simply reduces the right hand side yielding a numeric value. If a non-ValuedVariable variable is included, an exception should be thrown. </p>
 
 </div>
 </div>
