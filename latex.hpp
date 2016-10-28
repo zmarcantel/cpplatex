@@ -325,8 +325,11 @@ namespace doc {
             Subsection& operator<<(const char* val) {content.push_back(std::string(val)); return *this;}
             Subsection& operator<<(const std::string& val) {content.push_back(val); return *this;}
 
-            template <typename T, typename = typename std::enable_if<can_stringify<T>::value>::type>
+            template <typename T, typename std::enable_if<can_stringify<T>::value, bool>::type = 0>
             Subsection& operator<<(const T& val) { content.push_back(val.to_string()); return *this; }
+
+            template <typename T, typename std::enable_if<can_latex<T>::value, char>::type = 0>
+            Subsection& operator<<(const T& val) { content.push_back(val.latex()); return *this; }
 
             friend std::ostream& operator<<(std::ostream& os, const Subsection& sub) {
                 os << "\\subsection{" << sub.title << "}\n\n";
@@ -572,46 +575,16 @@ namespace math {
     template <typename Val> class NaturalLog;
 
 
-    //
-    // artihmetic base class
-    //
-
-    /** Helper class for adding arithmetic overloads to other math operations. */
-    template <typename Self>
-    class Arithmetic {
-    public:
-        template<typename T> using AdditionType = Addition<Self, T>;
-        template<typename T> using SubtractionType = Subtraction<Self, T>;
-        template<typename T> using MultiplicationType = Multiplication<Self, T>;
-        template<typename T> using FractionType = Fraction<Self, T>;
-        template<typename T> using ExponentType = Exponent<Self, T>;
-        template<typename B> using LogType = Log<Self, B>;
-        using NaturalLogType = NaturalLog<Self>;
-
-        template <typename T>
-        friend AdditionType<T> operator+(const Self& lhs, T rhs) { return AdditionType<T>(lhs, rhs); }
-
-        template <typename T>
-        friend SubtractionType<T> operator-(const Self& lhs, T rhs) { return SubtractionType<T>(lhs, rhs); }
-
-        template <typename T>
-        friend MultiplicationType<T> operator*(const Self& lhs, T rhs) { return MultiplicationType<T>(lhs, rhs); }
-
-        template <typename T>
-        friend FractionType<T> operator/(const Self& lhs, T rhs) { return FractionType<T>(lhs, rhs); }
-    };
-
-
 
     /** Helper class for "entering the LaTeX context" using a constant numeric.
      *
      * Most commonly used to then access the overloaded operators.
      */
     template <typename T>
-    class Number : public Arithmetic<Number<T>> {
+    class Number {
     protected:
         T val;
-    
+
     public:
         using Self = Number<T>;
 
@@ -672,11 +645,11 @@ namespace math {
 
 
     template <typename Numerator=double, typename Denominator=Numerator>
-    class Fraction : public Arithmetic<Fraction<Numerator, Denominator>> {
+    class Fraction {
     protected:
         Numerator num;
         Denominator den;
-    
+
     public:
         using NumeratorType = Numerator;
         using DenominatorType = Denominator;
@@ -710,18 +683,18 @@ namespace math {
 
 
     template <typename LHS, typename RHS=LHS>
-    class Multiplication : public Arithmetic<Multiplication<LHS, RHS>> {
+    class Multiplication {
     protected:
         LHS lhs;
         RHS rhs;
-    
+
     public:
         using LHSType = LHS;
         using RHSType = RHS;
         using Self = Multiplication<LHS, RHS>;
 
         Multiplication(LHS lhs, RHS rhs) : lhs(lhs), rhs(rhs) {}
-    
+
         auto solve() { return reduce(lhs) * reduce(rhs); }
         std::string latex() const {
             std::stringstream ss;
@@ -744,18 +717,18 @@ namespace math {
     auto make_mult(const LHS& lhs, const RHS& rhs) { return Multiplication<LHS, RHS>(lhs, rhs); }
 
     template <typename LHS, typename RHS=LHS>
-    class Addition : public Arithmetic<Addition<LHS, RHS>> {
+    class Addition {
     protected:
         LHS lhs;
         RHS rhs;
-    
+
     public:
         using LHSType = LHS;
         using RHSType = RHS;
         using Self = Addition<LHS, RHS>;
 
         Addition(LHS lhs, RHS rhs) : lhs(lhs), rhs(rhs) {}
-    
+
         auto solve() { return reduce(lhs) + reduce(rhs); }
         std::string latex() const {
             std::stringstream ss;
@@ -778,18 +751,18 @@ namespace math {
     auto make_add(const LHS& lhs, const RHS& rhs) { return Addition<LHS, RHS>(lhs, rhs); }
 
     template <typename LHS, typename RHS=LHS>
-    class Subtraction : public Arithmetic<Subtraction<LHS, RHS>> {
+    class Subtraction {
     protected:
         LHS lhs;
         RHS rhs;
-    
+
     public:
         using LHSType = LHS;
         using RHSType = RHS;
         using Self = Subtraction<LHS, RHS>;
 
         Subtraction(LHS lhs, RHS rhs) : lhs(lhs), rhs(rhs) {}
-    
+
         auto solve() { return reduce(lhs) - reduce(rhs); }
         std::string latex() const {
             std::stringstream ss;
@@ -811,20 +784,23 @@ namespace math {
     template <typename LHS, typename RHS>
     auto make_sub(const LHS& lhs, const RHS& rhs) { return Subtraction<LHS, RHS>(lhs, rhs); }
 
+
+
     template <typename LHS, typename RHS=LHS>
-    class Exponent : public Arithmetic<Exponent<LHS, RHS>> {
+    class Exponent {
     protected:
         LHS lhs;
         RHS rhs;
-    
+
     public:
         using LHSType = LHS;
         using RHSType = RHS;
         using Self = Exponent<LHS, RHS>;
 
         Exponent(LHS lhs, RHS rhs) : lhs(lhs), rhs(rhs) {}
-    
+
         auto solve() { return ::pow(reduce(lhs), reduce(rhs)); }
+
         std::string latex() const {
             std::stringstream ss;
             ss << "{" << ::latex::oparen << lhs << ::latex::cparen << "}^{" << rhs << "}";
@@ -845,20 +821,24 @@ namespace math {
     template <typename LHS, typename RHS>
     auto make_exp(const LHS& lhs, const RHS& rhs) { return Exponent<LHS, RHS>(lhs, rhs); }
 
+
+
     template <typename Val, typename Power=Val>
-    class Root : public Arithmetic<Root<Val, Power>> {
+    class Root {
     protected:
         Val val;
         Power base;
-    
+
+
     public:
         using ValType = Val;
         using BaseType = Power;
         using Self = Root<Val, Power>;
 
         Root(Val val, Power base) : val(val), base(base) {}
-    
+
         auto solve() { return ::pow(reduce(val), ((double)1.0)/reduce(base)); }
+
         std::string latex() const {
             std::stringstream ss;
             ss << '\\' << "sqrt";
@@ -881,19 +861,21 @@ namespace math {
     template <typename Val, typename Base=Val>
     auto make_root(const Val& val, const Base& base) { return Root<Val, Base>(val, base); }
 
+
+
     template <typename Val, typename Base=Val>
-    class Log : public Arithmetic<Log<Val, Base>> {
+    class Log {
     protected:
         Val val;
         Base base;
-    
+
     public:
         using ValType = Val;
         using BaseType = Base;
         using Self = Root<Val, Base>;
 
         Log(Val val, Base base) : val(val), base(base) {}
-    
+
         auto solve() { return ::log(reduce(val)) / ::log(base); }
         std::string latex() const {
             std::stringstream ss;
@@ -915,17 +897,19 @@ namespace math {
     template <typename Val, typename Base>
     auto make_log(const Val& val, const Base& base) { return Log<Val, Base>(val, base); }
 
+
+
     template <typename Val>
-    class NaturalLog : public Arithmetic<NaturalLog<Val>> {
+    class NaturalLog {
     protected:
         Val val;
-    
+
     public:
         using ValType = Val;
         using Self = NaturalLog<Val>;
 
         NaturalLog(Val val) : val(val) {}
-    
+
         auto solve() { return ::log(reduce(val)); }
         std::string latex() const {
             std::stringstream ss;
@@ -981,9 +965,13 @@ namespace math {
 
         /** This **does not** solve for variables or balance and solve equations.
          *
-         * It simply reduces the right hand side.
+         * Simply reduces the right hand side yielding a numeric value.
+         * If a non-ValuedVariable variable is included, an exception should be thrown.
          */
         auto solve() { return rhs.solve(); }
+
+        /** Output the latex formatted version of the eqation.
+         */
         std::string latex() const {
             std::stringstream ss;
             ss << open_context;
@@ -1006,6 +994,7 @@ namespace math {
     class AlignedEquation {
     protected:
         std::string eqn;
+        // TODO: label
 
         constexpr const static char* open_context = "\\begin{equation}";
         constexpr const static char* close_context = "\\end{equation}";
@@ -1079,6 +1068,37 @@ namespace math {
         }
     };
 
+    template <typename T, typename StrType=std::string>
+    class ValuedVariable {
+    protected:
+        bool use_name;
+
+    public:
+        T val;
+        StrType name;
+
+        ValuedVariable(const T& val, const StrType& name, bool use_name=true)
+            : use_name(use_name), val(val), name(name)
+        {}
+
+        auto solve() { return reduce(val); }
+
+        std::string latex() const {
+            std::stringstream ss;
+            if (use_name) {
+                ss << name;
+            } else {
+                ss << val;
+            }
+            return ss.str();
+        }
+
+        friend std::ostream& operator<<(std::ostream& os, const ValuedVariable& var) {
+            os << var.latex();
+            return os;
+        }
+    };
+
     template <typename Upper, typename Lower=Upper>
     class SubscriptedVariable {
     public:
@@ -1115,16 +1135,49 @@ namespace math {
 // global operators for "reversed operand" math
 //
 
-template <typename T, typename L, typename = typename std::enable_if<latex::math::can_solve<L>::value>::type>
+template <
+    typename T,
+    typename L,
+    typename = typename std::enable_if<
+        latex::math::can_solve<T>::value ||
+        latex::math::can_solve<L>::value
+    >::type
+>
 latex::math::Addition<T, L> operator+(const T& lhs, L rhs) { return latex::math::Addition<T, L>(lhs, rhs); }
 
-template <typename T, typename L, typename = typename std::enable_if<latex::math::can_solve<L>::value>::type>
+//template <typename T, typename L, typename = typename std::enable_if<latex::math::can_solve<L>::value>::type>
+
+template <
+    typename T,
+    typename L,
+    typename = typename std::enable_if<
+        latex::math::can_solve<T>::value ||
+        latex::math::can_solve<L>::value
+    >::type
+>
 latex::math::Subtraction<T, L> operator-(const T& lhs, L rhs) { return latex::math::Subtraction<T, L>(lhs, rhs); }
 
-template <typename T, typename L, typename = typename std::enable_if<latex::math::can_solve<L>::value>::type>
+//template <typename T, typename L, typename = typename std::enable_if<latex::math::can_solve<L>::value>::type>
+
+template <
+    typename T,
+    typename L,
+    typename = typename std::enable_if<
+        latex::math::can_solve<T>::value ||
+        latex::math::can_solve<L>::value
+    >::type
+>
 latex::math::Multiplication<T, L> operator*(const T& lhs, L rhs) { return latex::math::Multiplication<T, L>(lhs, rhs); }
 
-template <typename T, typename L, typename = typename std::enable_if<latex::math::can_solve<L>::value>::type>
+//template <typename T, typename L, typename = typename std::enable_if<latex::math::can_solve<L>::value>::type>
+template <
+    typename T,
+    typename L,
+    typename = typename std::enable_if<
+        latex::math::can_solve<T>::value ||
+        latex::math::can_solve<L>::value
+    >::type
+>
 latex::math::Fraction<T, L> operator/(const T& lhs, L rhs) { return latex::math::Fraction<T, L>(lhs, rhs); }
 
 #endif
