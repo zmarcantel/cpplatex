@@ -546,6 +546,32 @@ namespace doc {
 //------------------------------------------------
 
 namespace math {
+    namespace style {
+        class None {
+        public:
+            constexpr const static char* open = "";
+            constexpr const static char* close = "";
+        };
+
+        class Normal {
+        public:
+            constexpr const static char* open = "\\mathnormal{";
+            constexpr const static char* close = "}";
+        };
+
+        class Italic {
+        public:
+            constexpr const static char* open = "\\mathit{";
+            constexpr const static char* close = "}";
+        };
+
+        class Bold {
+        public:
+            constexpr const static char* open = "\\boldsymbol{";
+            constexpr const static char* close = "}";
+        };
+    }
+
     //
     // ::solve() enable_if "interface"
     //
@@ -1132,7 +1158,7 @@ namespace math {
 
 
 //
-// global operators for "reversed operand" math
+// global operators for math
 //
 
 template <
