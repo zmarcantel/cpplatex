@@ -595,7 +595,7 @@ namespace math {
     template <typename LHS, typename RHS> class Subtraction;
     template <typename LHS, typename RHS> class Fraction;
     template <typename LHS, typename RHS> class Multiplication;
-    template <typename LHS, typename RHS> class Exponent;
+    template <typename LHS, typename RHS> class Power;
     template <typename Val, typename Power> class Root;
     template <typename Val, typename Base> class Log;
     template <typename Val> class NaturalLog;
@@ -628,7 +628,7 @@ namespace math {
 
         Self operator-() { return Number<T>(0 - val); }
 
-        template <typename Pow> Exponent<Self, Pow> pow(const Pow& power) { return Exponent<Self, Pow>(*this, power); }
+        template <typename Pow> Power<Self, Pow> pow(const Pow& power) { return Power<Self, Pow>(*this, power); }
 
         template <typename Base> Log<Self, Base> log(Base base) { return Log<Self, Base>(*this, base); }
 
@@ -695,7 +695,7 @@ namespace math {
 
         friend std::ostream& operator<<(std::ostream& os, const Fraction& frac) { os << frac.latex(); return os; }
 
-        template <typename T> Exponent<Self, T> pow(const T& power) { return Exponent<Self, T>(*this, power); }
+        template <typename T> Power<Self, T> pow(const T& power) { return Power<Self, T>(*this, power); }
 
         template <typename Base> Log<Self, Base> log(Base base) { return Log<Self, Base>(*this, base); }
 
@@ -730,7 +730,7 @@ namespace math {
 
         friend std::ostream& operator<<(std::ostream& os, const Multiplication& mult) { os << mult.latex(); return os; }
 
-        template <typename T> Exponent<Self, T> pow(const T& power) { return Exponent<Self, T>(*this, power); }
+        template <typename T> Power<Self, T> pow(const T& power) { return Power<Self, T>(*this, power); }
 
         template <typename Base> Log<Self, Base> log(Base base) { return Log<Self, Base>(*this, base); }
 
@@ -764,7 +764,7 @@ namespace math {
 
         friend std::ostream& operator<<(std::ostream& os, const Addition& add) { os << add.latex(); return os; }
 
-        template <typename T> Exponent<Self, T> pow(const T& power) { return Exponent<Self, T>(*this, power); }
+        template <typename T> Power<Self, T> pow(const T& power) { return Power<Self, T>(*this, power); }
 
         template <typename Base> Log<Self, Base> log(Base base) { return Log<Self, Base>(*this, base); }
 
@@ -798,7 +798,7 @@ namespace math {
 
         friend std::ostream& operator<<(std::ostream& os, const Subtraction& sub) { os << sub.latex(); return os; }
 
-        template <typename T> Exponent<Self, T> pow(const T& power) { return Exponent<Self, T>(*this, power); }
+        template <typename T> Power<Self, T> pow(const T& power) { return Power<Self, T>(*this, power); }
 
         template <typename Base> Log<Self, Base> log(Base base) { return Log<Self, Base>(*this, base); }
 
@@ -813,7 +813,7 @@ namespace math {
 
 
     template <typename LHS, typename RHS=LHS>
-    class Exponent {
+    class Power {
     protected:
         LHS lhs;
         RHS rhs;
@@ -821,9 +821,9 @@ namespace math {
     public:
         using LHSType = LHS;
         using RHSType = RHS;
-        using Self = Exponent<LHS, RHS>;
+        using Self = Power<LHS, RHS>;
 
-        Exponent(LHS lhs, RHS rhs) : lhs(lhs), rhs(rhs) {}
+        Power(LHS lhs, RHS rhs) : lhs(lhs), rhs(rhs) {}
 
         auto solve() { return ::pow(reduce(lhs), reduce(rhs)); }
 
@@ -833,9 +833,9 @@ namespace math {
             return ss.str();
         }
 
-        friend std::ostream& operator<<(std::ostream& os, const Exponent& expo) { os << expo.latex(); return os; }
+        friend std::ostream& operator<<(std::ostream& os, const Power& expo) { os << expo.latex(); return os; }
 
-        template <typename T> Exponent<Self, T> pow(const T& power) { return Exponent<Self, T>(*this, power); }
+        template <typename T> Power<Self, T> pow(const T& power) { return Power<Self, T>(*this, power); }
 
         template <typename Base> Log<Self, Base> log(Base base) { return Log<Self, Base>(*this, base); }
 
@@ -845,23 +845,59 @@ namespace math {
     };
 
     template <typename LHS, typename RHS>
-    auto make_exp(const LHS& lhs, const RHS& rhs) { return Exponent<LHS, RHS>(lhs, rhs); }
+    auto make_pow(const LHS& lhs, const RHS& rhs) { return Power<LHS, RHS>(lhs, rhs); }
 
 
 
-    template <typename Val, typename Power=Val>
+    template <typename RHS>
+    class Exponent {
+    protected:
+        RHS rhs;
+
+    public:
+        using RHSType = RHS;
+        using Self = Exponent<RHS>;
+
+        Exponent(RHS rhs) : rhs(rhs) {}
+
+        auto solve() { return ::exp(reduce(rhs)); }
+
+        std::string latex() const {
+            std::stringstream ss;
+            // TODO: explicit \mathit{} ok to assume?
+            ss << "\\mathit{e}^{" << ::latex::oparen << rhs << ::latex::cparen << "}";
+            return ss.str();
+        }
+
+        friend std::ostream& operator<<(std::ostream& os, const Exponent& expo) { os << expo.latex(); return os; }
+
+        template <typename T> Power<Self, T> pow(const T& power) { return Power<Self, T>(*this, power); }
+
+        template <typename Base> Log<Self, Base> log(Base base) { return Log<Self, Base>(*this, base); }
+
+        NaturalLog<Self> ln() { return NaturalLog<Self>(*this); }
+
+        Root<Self, int> sqrt() { return Root<Self, int>(*this, 2); }
+    };
+
+    template <typename RHS>
+    auto make_exp(const RHS& rhs) { return Exponent<RHS>(rhs); }
+
+
+
+    template <typename Val, typename Pow=Val>
     class Root {
     protected:
         Val val;
-        Power base;
+        Pow base;
 
 
     public:
         using ValType = Val;
-        using BaseType = Power;
-        using Self = Root<Val, Power>;
+        using PowType = Pow;
+        using Self = Root<Val, Pow>;
 
-        Root(Val val, Power base) : val(val), base(base) {}
+        Root(Val val, Pow base) : val(val), base(base) {}
 
         auto solve() { return ::pow(reduce(val), ((double)1.0)/reduce(base)); }
 
@@ -875,7 +911,7 @@ namespace math {
 
         friend std::ostream& operator<<(std::ostream& os, const Root& r) { os << r.latex(); return os; }
 
-        template <typename T> Exponent<Self, T> pow(const T& power) { return Exponent<Self, T>(*this, power); }
+        template <typename T> Power<Self, T> pow(const T& power) { return Power<Self, T>(*this, power); }
 
         template <typename InnerPower> Log<Self, InnerPower> log() { return Log<Self, InnerPower>(*this); }
 
@@ -911,7 +947,7 @@ namespace math {
 
         friend std::ostream& operator<<(std::ostream& os, const Log& loga) { os << loga.latex(); return os;}
 
-        template <typename T> Exponent<Self, T> pow(const T& power) { return Exponent<Self, T>(*this, power); }
+        template <typename T> Power<Self, T> pow(const T& power) { return Power<Self, T>(*this, power); }
 
         template <typename InnerBase> Log<Self, Base> log() { return Log<Self, InnerBase>(*this); }
 
@@ -945,7 +981,7 @@ namespace math {
 
         friend std::ostream& operator<<(std::ostream& os, const NaturalLog& loga) { os << loga.latex(); return os;}
 
-        template <typename T> Exponent<Self, T> pow(const T& power) { return Exponent<Self, T>(*this, power); }
+        template <typename T> Power<Self, T> pow(const T& power) { return Power<Self, T>(*this, power); }
 
         template <typename Base> Log<Self, Base> log(Base base) { return Log<Self, Base>(*this, base); }
 
@@ -1103,6 +1139,8 @@ namespace math {
         T val;
         StrType name;
 
+        using Self = ValuedVariable<T, StrType>;
+
         ValuedVariable(const T& val, const StrType& name, bool use_name=true)
             : use_name(use_name), val(val), name(name)
         {}
@@ -1123,6 +1161,14 @@ namespace math {
             os << var.latex();
             return os;
         }
+
+        template <typename U> Power<Self, U> pow(const U& power) { return Power<Self, U>(*this, power); }
+
+        template <typename Base> Log<Self, Base> log(Base base) { return Log<Self, Base>(*this, base); }
+
+        NaturalLog<Self> ln() { return NaturalLog<Self>(*this); }
+
+        Root<Self, int> sqrt() { return Root<Self, int>(*this, 2); }
     };
 
     template <typename Upper, typename Lower=Upper>
@@ -1150,6 +1196,111 @@ namespace math {
             return os;
         }
     };
+
+
+
+    template <typename Val>
+    class Sin {
+    protected:
+        Val val;
+
+    public:
+        using ValType = Val;
+        using Self = Sin<Val>;
+
+        Sin(Val val) : val(val) {}
+
+        auto solve() { return ::sin(reduce(val)); }
+        std::string latex() const {
+            std::stringstream ss;
+            ss << "\\sin{" << latex::oparen << val << latex::cparen << "}";
+            return ss.str();
+        }
+
+        friend std::ostream& operator<<(std::ostream& os, const Sin& s) { os << s.latex(); return os;}
+
+        template <typename T> Power<Self, T> pow(const T& power) { return Power<Self, T>(*this, power); }
+
+        template <typename Base> Log<Self, Base> log(Base base) { return Log<Self, Base>(*this, base); }
+
+        NaturalLog<Self> ln() { return NaturalLog<Self>(*this); }
+
+        Root<Self, int> sqrt() { return Root<Self, int>(*this, 2); }
+    };
+
+    template <typename Val>
+    auto make_sin(const Val& val) { return Sin<Val>(val); }
+
+
+
+    template <typename Val>
+    class Cos {
+    protected:
+        Val val;
+
+    public:
+        using ValType = Val;
+        using Self = Cos<Val>;
+
+        Cos(Val val) : val(val) {}
+
+        auto solve() { return ::sin(reduce(val)); }
+        std::string latex() const {
+            std::stringstream ss;
+            ss << "\\cos{" << latex::oparen << val << latex::cparen << "}";
+            return ss.str();
+        }
+
+        friend std::ostream& operator<<(std::ostream& os, const Cos& s) { os << s.latex(); return os;}
+
+        template <typename T> Power<Self, T> pow(const T& power) { return Power<Self, T>(*this, power); }
+
+        template <typename Base> Log<Self, Base> log(Base base) { return Log<Self, Base>(*this, base); }
+
+        NaturalLog<Self> ln() { return NaturalLog<Self>(*this); }
+
+        Root<Self, int> sqrt() { return Root<Self, int>(*this, 2); }
+    };
+
+    template <typename Val>
+    auto make_cos(const Val& val) { return Cos<Val>(val); }
+
+
+
+    template <typename Val>
+    class Tan {
+    protected:
+        Val val;
+
+    public:
+        using ValType = Val;
+        using Self = Tan<Val>;
+
+        Tan(Val val) : val(val) {}
+
+        auto solve() { return ::sin(reduce(val)); }
+        std::string latex() const {
+            std::stringstream ss;
+            ss << "\\tan{" << latex::oparen << val << latex::cparen << "}";
+            return ss.str();
+        }
+
+        friend std::ostream& operator<<(std::ostream& os, const Tan& s) { os << s.latex(); return os;}
+
+        template <typename T> Power<Self, T> pow(const T& power) { return Power<Self, T>(*this, power); }
+
+        template <typename Base> Log<Self, Base> log(Base base) { return Log<Self, Base>(*this, base); }
+
+        NaturalLog<Self> ln() { return NaturalLog<Self>(*this); }
+
+        Root<Self, int> sqrt() { return Root<Self, int>(*this, 2); }
+    };
+
+    template <typename Val>
+    auto make_tan(const Val& val) { return Tan<Val>(val); }
+
+
+
 } // math namespace
 
 

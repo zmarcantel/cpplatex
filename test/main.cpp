@@ -436,8 +436,8 @@ TEST(MathSolve, fraction_custom_type) {
 // exponent
 //
 
-TEST(MathSolve, exponent) {
-    math::Exponent<int> exp(2, 3);
+TEST(MathSolve, power) {
+    math::Power<int> exp(2, 3);
     EXPECT_EQ(8, exp.solve());
 }
 
@@ -489,7 +489,7 @@ TEST(MathSolve, ln) {
 
 // solve a basic equation
 TEST(MathSolve, equation_basic) {
-    math::Exponent<int, int> expo(4, 5);
+    math::Power<int, int> expo(4, 5);
     math::Log<int, int> logarithm(4, 10);
 
     math::Fraction<decltype(expo), decltype(logarithm)> fraction(expo, logarithm);
@@ -560,7 +560,7 @@ TEST(MathLatex, fraction) {
 TEST(MathLatex, exponent) {
     auto expect = "{\\left(1\\right)}^{2}";
 
-    auto result = math::make_exp(1, 2);
+    auto result = math::make_pow(1, 2);
     EXPECT_EQ(expect, result.latex());
 }
 
