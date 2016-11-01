@@ -975,7 +975,7 @@ namespace math {
         auto solve() { return ::log(reduce(val)); }
         std::string latex() const {
             std::stringstream ss;
-            ss << "\\ln{" << val << "}";
+            ss << "\\ln{" << oparen << val << cparen <<  "}";
             return ss.str();
         }
 
